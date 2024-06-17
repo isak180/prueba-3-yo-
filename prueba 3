@@ -1,0 +1,114 @@
+import csv
+lista=[]
+def menu():
+    print(".-.-.-.-.-.-.-.-..-.-.-.-")
+    print(".-.-.-.M E N U.-.-.-.")
+    print("1.-agregar jugador")
+    print("2.-Listar jugadores")
+    print("3.-Imprimir datos de los jugador")
+    print("4.-Eliminar jugador")
+    print("5.-Estadisticas")
+    print("6.-Generar archivo csv")
+    print("7.Cargar archivo csv")
+    print("0.-Salir")
+def agregar():
+    Numero=int(input("ingrese numero de camiseta :"))
+    Nombre=input("ingrese el nombre del jugador : ")
+    goles=int(input("ingrese la cantidad de goles : "))
+    if goles>=1 and goles<6:
+        Categoria="amateur"
+    elif goles>=6 and goles<16:
+        Categoria="semi"
+    elif goles>=16:
+        Categoria="pro"
+    jugadores=[Numero,Nombre,goles,Categoria]
+    lista.append(jugadores)
+def listar():
+    for x in lista:
+        print("Numero : ",x[0],"Nombre :",x[1],"Goles : ",x[2],"Categoria : ",x[3])
+def imprimir():
+    encontrado=False
+    num=int(input(" ingrese numero de camiseta :"))
+    for x in lista:
+        num_jug=int(x[0])
+        if num==num_jug:
+            print("jugador encontrado")
+            print("Numero : ",x[0],"Nombre :",x[1],"Goles : ",x[2],"Categoria : ",x[3])
+            encontrado=True
+            break
+    if encontrado==False:
+        print("jugador no encotrado")
+def validar():
+    preguntar=input("desea eliminar un jugador a este jugador? (si/no): ").lower()
+    if preguntar=="si" or preguntar=="s":
+        lista.remove(x)
+        print("jugador eliminado correctamente")
+    else:
+        ("jugador no eliminado")
+def estadisticas():
+    total=0
+    mayor_cantidad=0
+    for x in lista:
+        goles=int(x[2])
+        total=total+goles
+        if goles>mayor_cantidad:
+            mayor_cantidad=goles
+    cantidad=len(lista)
+    promedio=total/cantidad
+    print("promedio de goles :",promedio)
+    print("mayor cantidad de goles",mayor_cantidad)
+def generar():
+    with open("jugadores.csv","w",newline="")as archivo:
+        escribircsv=csv.writer(archivo)
+        escribircsv.writerow(["Numero","Nombre","Goles","Categoria"])
+        escribircsv.writerows(lista)
+        print("Archivo guardado correctamente!")
+def cargar():
+    lista.clear()
+    with open("jugadores.csv","r",newline="")as archivo:
+        leercsv=csv.reader(archivo)
+        for x in leercsv:
+            lista.append(x)
+    lista.pop(0)
+    for x in lista:
+        print("Numero: ",x[0],"Nombre: ",x[1],"Goles: ",x[2],"Categoria: ",x[3])
+while True:
+    menu()
+    op=int(input("Ingrese una opción:\n"))
+    if op==1:
+        print("===AGREGAR JUGADOR===")
+        agregar()
+    elif op==2:
+        print("===LISTAR JUGADORES===")
+        listar()
+    elif op==3:
+        print("===IMPRIMIR DATOS DE JUGADOR===")
+        imprimir()
+    elif op==4:
+        encontrado=False
+        print("===ELIMINAR JUGADOR===")
+        num=int(input("Ingrese numero de camiseta: "))
+        for x in lista:
+            num_jug=int(x[0])
+            if num==num_jug:
+                print("jugador encontrado!")
+                print("Numero: ",x[0],"Nombre: ",x[1],"Goles: ",x[2],"Categoria: ",x[3])
+                encontrado=True
+                validar()
+                break
+        if encontrado==False:
+            print("Jugador no encontrado")
+    elif op==5:
+        print("===ESTADISTICAS===")
+        estadisticas()
+    elif op==6:
+        print("===GENERAR CSV===")
+        generar()
+    elif op==7:
+        print("===CARGAR DATOS DESDE CSV===")
+        cargar()
+    elif op==0:
+        print("Gracias por usar esta plataforma!")
+        break
+    else:
+        print("Seleccione una opción valida")
